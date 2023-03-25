@@ -6,16 +6,31 @@ function App() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
+//   useEffect(() => {
+//     liff
+//       .init({
+//         liffId: import.meta.env.VITE_LIFF_ID
+//       })
+//       .then(() => {
+//         setMessage("LIFF init succeeded.");
+//       })
+//       .catch((e: Error) => {
+//         setMessage("LIFF init failed.");
+//         setError(`${e}`);
+//       });
+//   });
+   useEffect(() => {
     liff
       .init({
-        liffId: import.meta.env.VITE_LIFF_ID
+        liffId: import.meta.env.VITE_LIFF_ID,
+        withLoginOnExternalBrowser: true,
       })
-      .then(() => {
-        setMessage("LIFF init succeeded.");
+      .then(async () => {
+        const profile = await liff.getProfile();
+        setMessage(`Hello, ${profile.displayName}!`);
       })
       .catch((e: Error) => {
-        setMessage("LIFF init failed.");
+        setMessage('LIFF init failed.');
         setError(`${e}`);
       });
   });
